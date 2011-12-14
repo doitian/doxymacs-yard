@@ -117,57 +117,49 @@
   (interactive)
   (doxymacs-mode)
 
-  ;; Only in effect for this buffer
-  (make-local-variable 'doxymacs-file-comment-template)
-  (make-local-variable 'doxymacs-blank-multiline-comment-template)
-  (make-local-variable 'doxymacs-blank-singleline-comment-template)
-  (make-local-variable 'doxymacs-function-comment-template)
-  (make-local-variable 'doxymacs-member-comment-start)
-  (make-local-variable 'doxymacs-member-comment-end)
-  (make-local-variable 'doxymacs-group-comment-start)
-  (make-local-variable 'doxymacs-group-comment-end)
-  (make-local-variable 'doxymacs-parm-tempo-element)
-
   ;; The templates
-  (setq doxymacs-file-comment-template '(
-                                         "#" > n
-                                         "# " (doxymacs-doxygen-command-char) "file   "
-                                         (if (buffer-file-name)
-                                             (file-name-nondirectory (buffer-file-name))
-                                           "") > n
-                                           "# " (doxymacs-doxygen-command-char) "author " (user-full-name)
-                                           (doxymacs-user-mail-address)
-                                           > n
-                                           "# " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
-                                           "# " > n
-                                           "# " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
-                                           "# " > n
-                                           "# " p > n
-                                           "#" > n
-                                           ))
+  (set (make-local-variable 'doxymacs-file-comment-template)
+       '(
+         "#" > n
+         "# " (doxymacs-doxygen-command-char) "file   "
+         (if (buffer-file-name)
+             (file-name-nondirectory (buffer-file-name))
+           "") > n
+           "# " (doxymacs-doxygen-command-char) "author " (user-full-name)
+           (doxymacs-user-mail-address)
+           > n
+           "# " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
+           "# " > n
+           "# " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
+           "# " > n
+           "# " p > n
+           "#" > n
+           ))
 
-  (setq doxymacs-blank-multiline-comment-templave  '("#" > n "# " p > n "#" > n))
-  (setq doxymacs-blank-singleline-comment-template '("# " > p))
+  (set (make-local-variable 'doxymacs-blank-multiline-comment-templave)
+       '("#" > n "# " p > n "#" > n))
+  (set (make-local-variable 'doxymacs-blank-singleline-comment-template)
+       '("# " > p))
 
-  (setq doxymacs-function-comment-template
-        '((let ((next-func (doxymacs-find-next-func)))
-            (if next-func
-                (list
-                 'l
-                 "# " 'p '> 'n
-                 "#" '> 'n
-                 (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
-                 (unless (string-match
-                          (regexp-quote (cdr (assoc 'return next-func)))
-                          doxymacs-void-types)
-                   '(l "#" > n "# " (doxymacs-doxygen-command-char)
-                       "return " (p "Returns: ") > n))
-                 "#" '>)
-              (progn
-                (error "Can't find next function declaraton.")
-                nil)))))
+  (set (make-local-variable 'doxymacs-function-comment-template)
+       '((let ((next-func (doxymacs-find-next-func)))
+           (if next-func
+               (list
+                'l
+                "# " 'p '> 'n
+                "#" '> 'n
+                (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
+                (unless (string-match
+                         (regexp-quote (cdr (assoc 'return next-func)))
+                         doxymacs-void-types)
+                  '(l "#" > n "# " (doxymacs-doxygen-command-char)
+                      "return " (p "Returns: ") > n))
+                "#" '>)
+             (progn
+               (error "Can't find next function declaraton.")
+               nil)))))
 
-                                        ; Called when inserting function comments
+  (make-variable-buffer-local 'doxymacs-parm-tempo-element)
   (defun doxymacs-parm-tempo-element (parms)
     (if parms
         (let ((prompt (concat "Parameter " (car parms) ": ")))
@@ -176,11 +168,10 @@
                 (doxymacs-parm-tempo-element (cdr parms))))
       nil))
 
-  (setq doxymacs-member-comment-start '("#< "))
-  (setq doxymacs-member-comment-end '(""))
+  (set (make-local-variable 'doxymacs-member-comment-start) '("#< "))
+  (set (make-local-variable 'doxymacs-member-comment-end) '(""))
 
-  (setq doxymacs-group-comment-start '("# @{"))
-  (setq doxymacs-group-comment-end '("# @}"))
-  )
+  (set (make-local-variable 'doxymacs-group-comment-start) '("# @{"))
+  (set (make-local-variable 'doxymacs-group-comment-end) '("# @}")))
 
 (provide 'doxymacs-yard)
