@@ -9,7 +9,11 @@
 ;; the settings, but this is still the least intrusive method I could find.
 ;; Another solution would be extending doxymacs itself with another style.
 ;;
-;; - Put (require 'doxymacs-yard) in .emacs
+;; - Put (require 'doxymacs-yard) in .emacs, or use autoload
+;;
+;;   (autoload 'doxymacs-yard "doxymacs-yard" nil t)
+;;   (autoload 'doxymacs-yard-font-lock "doxymacs-yard" nil t)
+;;
 ;; - Enable doxymacs-mode and font lock for ruby mode:
 ;;
 ;;   (add-hook 'ruby-mode-hook 'doxymacs-yard)
@@ -107,12 +111,14 @@
     '(1 font-lock-keyword-face prepend)
     '(2 font-lock-variable-name-face prepend t))))
 
+;;;###autoload
 (defun doxymacs-yard-font-lock()
   "Turn on font-lock for yard tags"
   (interactive)
   (let ((doxymacs-doxygen-keywords doxymacs-yard-keywords))
     (doxymacs-font-lock)))
 
+;;;###autoload
 (defun doxymacs-yard ()
   (interactive)
   (doxymacs-mode)
