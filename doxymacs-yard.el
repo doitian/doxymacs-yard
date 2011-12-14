@@ -25,6 +25,14 @@
 (defun doxymacs-yard--concat-regexp-with-whitespace(&rest regexps)
   (mapconcat 'identity regexps "\\s-+"))
 
+(defun doxymacs-yard--concat-optional-regexp-with-whitespace(first &rest regexps)
+  (concat
+   first
+   (mapconcat
+    (lambda (r)
+      (concat "\\(?:\\s-+" r "\\)?"))
+    regexps "")))
+
 (defconst doxymacs-yard--variable-type-regexp "\\(\\[[^]]+\\]\\)")
 (defconst doxymacs-yard--variable-name-regexp "\\(\\sw+\\)")
 
@@ -49,7 +57,7 @@
     '(0 font-lock-keyword-face prepend))
    (list
     ;; Keywords that take variable type and name as arguments
-    (doxymacs-yard--concat-regexp-with-whitespace
+    (doxymacs-yard--concat-optional-regexp-with-whitespace
      (doxymacs-yard--make-keywords-regexp
       "attr\\(?:_reader\\|_wirter\\|ibute\\)?"
       "macro"
@@ -58,42 +66,42 @@
      doxymacs-yard--variable-type-regexp
      doxymacs-yard--variable-name-regexp)
     '(1 font-lock-keyword-face prepend)
-    '(2 font-lock-type-face prepend)
-    '(3 font-lock-variable-name-face prepend))
+    '(2 font-lock-type-face prepend t)
+    '(3 font-lock-variable-name-face prepend t))
    (list
     ;; Keywords that take function as argument
-    (doxymacs-yard--concat-regexp-with-whitespace
+    (doxymacs-yard--concat-optional-regexp-with-whitespace
      (doxymacs-yard--make-keywords-regexp
       "method"
       "overload")
      "\\(\sw+\\)")
     '(1 font-lock-keyword-face prepend)
-    '(2 font-lock-function-name-face prepend))
+    '(2 font-lock-function-name-face prepend t))
    (list
     ;; Keywords that take variable name, then type and then variable name as arguments
-    (doxymacs-yard--concat-regexp-with-whitespace
+    (doxymacs-yard--concat-optional-regexp-with-whitespace
      (doxymacs-yard--make-keywords-regexp "option")
      doxymacs-yard--variable-name-regexp
      doxymacs-yard--variable-type-regexp
      doxymacs-yard--variable-name-regexp)
     '(1 font-lock-keyword-face prepend)
-    '(2 font-lock-variable-name-face prepend)
-    '(3 font-lock-type-face prepend)
-    '(4 font-lock-variable-name-face prepend))
+    '(2 font-lock-variable-name-face prepend t)
+    '(3 font-lock-type-face prepend t)
+    '(4 font-lock-variable-name-face prepend t))
    (list
     ;; Keywords that take optional variable type
-    (doxymacs-yard--concat-regexp-with-whitespace
+    (doxymacs-yard--concat-optional-regexp-with-whitespace
      (doxymacs-yard--make-keywords-regexp
       "raise"
       "return"
       "yieldreturn"
       )
-     (concat doxymacs-yard--variable-type-regexp "?"))
+     doxymacs-yard--variable-type-regexp)
     '(1 font-lock-keyword-face prepend)
-    '(2 font-lock-type-face prepend))
+    '(2 font-lock-type-face prepend t))
    (list
     ;; Keywords that take list of variable names
-    (doxymacs-yard--concat-regexp-with-whitespace
+    (doxymacs-yard--concat-optional-regexp-with-whitespace
      (doxymacs-yard--make-keywords-regexp "yield")
      doxymacs-yard--variable-type-regexp)
     '(1 font-lock-keyword-face prepend)
