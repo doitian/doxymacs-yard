@@ -5,23 +5,23 @@ just added the font lock for yard tags.
 
 Download `doxymacs-yard.el` and put it in your `load-path`.
 
-- Load the library
-
-     (require 'doxymacs-yard)
-  
-  Or use `autoload`
-
-      (autoload 'doxymacs-yard "doxymacs-yard" nil t)
-      (autoload 'doxymacs-yard-font-lock "doxymacs-yard" nil t)
-
-- Enable `doxymacs-mode` (with shortcuts to create documentation for function
-  and etc.)
-  
-      (add-hook 'ruby-mode-hook 'doxymacs-yard)
-      
-- Enable `font-lock` for tags
-
-      (add-hook 'ruby-mode-hook 'doxymacs-yard-font-lock)
+-  Load the library
+   
+      (require 'doxymacs-yard)
+   
+   Or use `autoload`
+   
+       (autoload 'doxymacs-yard "doxymacs-yard" nil t)
+       (autoload 'doxymacs-yard-font-lock "doxymacs-yard" nil t)
+   
+-  Enable `doxymacs-mode` (with shortcuts to create documentation for function
+   and etc.)
+   
+       (add-hook 'ruby-mode-hook 'doxymacs-yard)
+       
+-  Enable `font-lock` for tags
+   
+       (add-hook 'ruby-mode-hook 'doxymacs-yard-font-lock)
 
 
 See font-lock screen shot below
