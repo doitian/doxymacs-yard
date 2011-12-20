@@ -38,7 +38,7 @@
     regexps "")))
 
 (defconst doxymacs-yard--variable-type-regexp "\\(\\[[^]]+\\]\\)")
-(defconst doxymacs-yard--variable-name-regexp "\\(\\sw+\\)")
+(defconst doxymacs-yard--variable-name-regexp "\\([a-zA-Z0-9_]+\\)")
 
 (defconst doxymacs-yard-keywords
   (list
