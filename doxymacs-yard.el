@@ -20,6 +20,7 @@
 ;;   (add-hook 'ruby-mode-hook 'doxymacs-yard-font-lock)
 ;;
 
+(require 'doxymacs)
 
 ;;; Functions copied from http://www.emacswiki.org/emacs/fic-mode.el
 (defun doxymacs-yard--in-doc/comment-region (pos)
